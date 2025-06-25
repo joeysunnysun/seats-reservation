@@ -1,0 +1,30 @@
+esun-seat-reservation
+├── frontend/                # Vue 前端
+│   ├── public/
+│   ├── src/
+│   │   ├── assets/
+│   │   ├── components/       # 員工下拉、座位區
+│   │   ├── views/            # 座位管理頁面
+│   │   ├── services/         # axios or fetch API
+│   │   └── App.vue
+│   └── package.json
+│
+├── backend/                # Spring Boot 後端
+│   ├── src/
+│   │   ├── main/
+│   │   │   ├── java/com/esun/reservation/
+│   │   │   │   ├── controller/
+│   │   │   │   ├── dto/
+│   │   │   │   ├── service/
+│   │   │   │   ├── repository/
+│   │   │   │   ├── entity/
+│   │   │   │   └── EsunSeatReservationApplication.java
+│   │   │   └── resources/
+│   │   │       ├── application.yml
+│   │   │       └── db/
+│   │   │           ├── schema.sql
+│   │   │           └── data.sql
+│   └── pom.xml
+│
+├── docker-compose.yml      # 啟動前後端、資料庫
+├── Dockerfile              # Vue 前端容器（backend 將用 spring boot build image）
