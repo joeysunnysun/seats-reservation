@@ -1,3 +1,9 @@
+-- Create DB
+CREATE DATABASE IF NOT EXISTS esun;
+
+-- Use DB
+Use esun;
+
 -- DDL
 CREATE TABLE IF NOT EXISTS seating_chart (
     floor_seat_seq INT AUTO_INCREMENT PRIMARY KEY,
@@ -115,6 +121,22 @@ BEGIN
     ORDER BY 
         floor_no ASC, 
         seat_no ASC;
+END //
+
+DELIMITER ;
+
+-- 清除所有座位資訊
+DELIMITER //
+
+CREATE PROCEDURE clear_all_seats()
+BEGIN
+    START TRANSACTION;
+
+    UPDATE employee
+    SET floor_seat_seq = NULL
+    WHERE floor_seat_seq IS NOT NULL;
+
+    COMMIT;
 END //
 
 DELIMITER ;
