@@ -50,7 +50,7 @@ public class SeatController {
   @PostMapping("/seats/assign")
   public ResponseEntity<HttpStatusCode> assignSeat(@Valid @RequestBody SeatAssignRequest request) {
     // update db
-    seatService.assignSeat(request.getEmpId(), request.getFloorNo(), request.getSeatNo());
+    request.getSeats().forEach(seat -> seatService.assignSeat(seat.getEmpId(), seat.getFloorNo(), seat.getSeatNo()));
 
     // return
     return ResponseEntity.ok().build();
@@ -98,5 +98,17 @@ public class SeatController {
         .filter(e -> e.getFloorSeatSeq() != null)
         .map(e -> new EmployeeSeatsInfoResponse(e.getEmpId(), e.getFloorSeatSeq()))
         .toList();
+  }
+
+  /**
+   * Clear all seat assignments.
+   *
+   * @return Response entity indicating success
+   */
+  @GetMapping("/seats/clear/all")
+  public ResponseEntity<HttpStatusCode> clearAllSeats() {
+    // 清除所有座位資訊
+    seatService.clearAllSeats();
+    return ResponseEntity.ok().build();
   }
 }

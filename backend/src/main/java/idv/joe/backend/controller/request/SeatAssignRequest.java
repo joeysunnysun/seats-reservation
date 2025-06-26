@@ -1,20 +1,12 @@
 package idv.joe.backend.controller.request;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 import lombok.Getter;
 
 @Getter
 public class SeatAssignRequest {
 
-  @Size(min = 5, max = 5)
-  @NotBlank
-  private String empId;
-
-  @NotNull
-  private Integer floorNo;
-
-  @NotNull
-  private Integer seatNo;
+  @JsonProperty("seats")
+  List<SeatAssign> seats;
 }

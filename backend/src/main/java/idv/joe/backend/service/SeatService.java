@@ -21,18 +21,20 @@ public class SeatService {
   public static final String ASSIGN_SEAT = "assign_seat";
   public static final String CLEAR_SEAT = "clear_seat";
   public static final String GET_ALL_EMPLOYEES = "get_all_employees";
+  public static final String CLEAR_ALL_SEATS = "clear_all_seats";
+
   @PersistenceContext
   private EntityManager em;
 
   public List<EmployeeEntity> getFilteredEmployees() {
     // 使用 stored procedure 從資料庫取得所有員工
-    @SuppressWarnings("unchecked") List<EmployeeEntity> employeeList = em.createStoredProcedureQuery(
-        GET_ALL_EMPLOYEES, EmployeeEntity.class).getResultList();
+    @SuppressWarnings("unchecked") List<EmployeeEntity> employeeList = em.createStoredProcedureQuery(GET_ALL_EMPLOYEES,
+        EmployeeEntity.class).getResultList();
 
     // 篩選掉有座位的員工
     return employeeList.stream().filter(employee -> employee.getFloorSeatSeq() == null).toList();
   }
-  
+
   public void assignSeat(String empId, Integer floorNo, Integer seatNo) {
     // 使用 StoredProcedure 更新 db
     StoredProcedureQuery query = em.createStoredProcedureQuery(ASSIGN_SEAT);
@@ -56,12 +58,12 @@ public class SeatService {
 
   public List<EmployeeEntity> getEmployees() {
     // 使用 stored procedure 從資料庫取得所有員工
-    @SuppressWarnings("unchecked") List<EmployeeEntity> employeeList = em.createStoredProcedureQuery(
-        GET_ALL_EMPLOYEES, EmployeeEntity.class).getResultList();
+    @SuppressWarnings("unchecked") List<EmployeeEntity> employeeList = em.createStoredProcedureQuery(GET_ALL_EMPLOYEES,
+        EmployeeEntity.class).getResultList();
 
     return employeeList;
   }
-  
+
   public List<SeatingChartEntity> getSeats() {
     // 使用 stored procedure 從資料庫取得所有座位資訊
     @SuppressWarnings("unchecked") List<SeatingChartEntity> seatingList = em.createStoredProcedureQuery(
@@ -71,4 +73,11 @@ public class SeatService {
     return seatingList;
   }
 
+
+  @Transactional
+  public void clearAllSeats() {
+    // 使用 StoredProcedure 清除所有座位資訊
+    StoredProcedureQuery query = em.createStoredProcedureQuery(CLEAR_ALL_SEATS);
+    query.execute();
+  }
 }
